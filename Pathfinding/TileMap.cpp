@@ -30,7 +30,7 @@ void TileMap::LoadTiles(const char* fileName)
 		file >> isblocked;
 
 		Tile tile = mTiles.emplace_back();
-		tile.canWalk = isblocked = 1;
+		tile.isBlocked = isblocked = 1;
 		tile.textureid = X::LoadTexture(buffer.c_str());
 
 	}
@@ -88,6 +88,18 @@ void TileMap::Render() const
         position.x = 0.0f;
         position.y += spriteHeight;
     }
+}
+
+bool TileMap::IsBlocked(int x, int y) const
+{
+    const int index = ToIndex(x, y, mColumns);
+    if (index < mMap.size())
+    {
+        int tile = mMap[index];
+        return mTiles[tile].isBlocked;
+    }
+
+    return true;
 }
 
 // 2D map - 5 columns x 4 rows

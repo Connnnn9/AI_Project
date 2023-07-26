@@ -1,11 +1,12 @@
 #pragma once
 
 #include <XEngine.h>
+#include <AI.h>
 
 struct Tile
 {
 	X::TextureId textureid = 0;
-	bool canWalk = true;
+	bool isBlocked = false;
 };
 
 class TileMap
@@ -16,7 +17,10 @@ public:
 
 	void Render() const;
 
+	bool IsBlocked(int x, int y) const;
+
 private:
+	AI::GridBasedGraph mGraph;
 	std::vector<int> mMap;
 	std::vector<Tile> mTiles;
 	int mColumns = 0;
