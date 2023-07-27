@@ -27,12 +27,36 @@
     <ClInclude Include="Inc\GridBasedGraph.h">
       <Filter>Inc\PathFinding</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\AStar.h">
+      <Filter>Inc\PathFinding</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\BFS.h">
+      <Filter>Inc\PathFinding</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\DFS.h">
+      <Filter>Inc\PathFinding</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Dijkstra_Search.h">
+      <Filter>Inc\PathFinding</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precomplied.cpp">
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\GridBasedGraph.cpp">
+      <Filter>Src\PathFinding</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\AStar.cpp">
+      <Filter>Src\PathFinding</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\BFS.cpp">
+      <Filter>Src\PathFinding</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\DFS.cpp">
+      <Filter>Src\PathFinding</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Dijkstra_Search.cpp">
       <Filter>Src\PathFinding</Filter>
     </ClCompile>
   </ItemGroup>

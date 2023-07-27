@@ -4,7 +4,6 @@ namespace AI
 {
 	class GridBasedGraph
 	{
-
 	public:
 		enum class Direction
 		{
@@ -22,21 +21,34 @@ namespace AI
 			std::array<Node*, 8> neighbors = {};
 			int column = 0;
 			int row = 0;
+
+			Node* parent = nullptr;
+			float g = 0.0f;
+			float h = 0.0f;
+			bool opened = false;
+			bool closed = false;
 		};
 		void Initialize(int colums, int rows);
+		void ResetSearchParams();
 
-		Node* GetNode(int x, int y);
-		const Node* GetNode(int x, int y) const;
-
-		int GetColums() const { return mColumns; }
-		int GetColums() const { return mRows; }
+		Node* GetNode(int column, int row)
+		{
+			if (column < 0 || column >= mColumns || row < 0 || row >= mRows)
+				return nullptr;
+			return &mNodes[column + (row * mColumns)];
+		}
+		const Node* GetNode(int column, int row) const
+		{
+			if (column < 0 || column >= mColumns || row < 0 || row >= mRows)
+				return nullptr;
+			return &mNodes[column + (row * mColumns)];
+		}
+		int GetColumns() const { return mColumns; }
+		int GetmRows() const { return mRows; }
 
 	private:
-		int GetIndex(int x, int y) const;
-
 		std::vector<Node> mNodes;
 		int mColumns = 0;
 		int mRows = 0;
-
 	};
 }

@@ -2,47 +2,64 @@
 #include "GridBasedGraph.h"
 
 using namespace AI;
-void GridBasedGraph::Initialize(int colums, int rows)
+void GridBasedGraph::Initialize(int columns, int rows)
 {
 	mNodes.clear();
-	mNodes.reserve(colums * rows);
-	mColumns = colums;
+	mNodes.resize(columns * rows);
+	mColumns = columns;
 	mRows = rows;
 
-	for (int r = 0; r < rows; ++r)
+	for (int i = 0; i < rows; ++i)
 	{
-		for (int c = 0; c < colums; ++c)
+		for (int j = 0; j < columns; ++j)
 		{
-			auto& node = mNodes.emplace_back();
-			node.column = c;
-			node.row = r;
+			auto node = GetNode(j, i);
+			for (int d = 0; d < 8; d++)
+			{
+				switch (d)
+				{
+				case 0:
+					node->neighbors[d] = GetNode(j, i - 1);
+					break;
+				case 1:
+					node->neighbors[d] = GetNode(j, i + 1);
+					break;
+				case 2:
+					node->neighbors[d] = GetNode(j + 1, i);
+					break;
+				case 3:
+					node->neighbors[d] = GetNode(j - 1, i);
+					break;
+				case 4:
+					node->neighbors[d] = GetNode(j + 1, i - 1);
+					break;
+				case 5:
+					node->neighbors[d] = GetNode(j - 1, i - 1);
+					break;
+				case 6:
+					node->neighbors[d] = GetNode(j + 1, i + 1);
+					break;
+				case 7:
+					node->neighbors[d] = GetNode(j - 1, i + 1);
+					break;
+				default:
+					break;
+				}
+			}
+			node->column = j;
+			node->row = i;
 		}
 	}
 }
 
-GridBasedGraph::Node* GridBasedGraph::GetNode(int x, int y)
+void GridBasedGraph::ResetSearchParams()
 {
-	const int index = GetIndex(x, y);
-	if (index < mNodes.size())
+	for (auto& node : mNodes)
 	{
-		return &mNodes[index];
+		node.parent = nullptr;
+		node.g = 0.0f;
+		node.h = 0.0f;
+		node.opened = false;
+		node.closed = false;
 	}
-
-	return nullptr;
-}
-
-const GridBasedGraph::Node* GridBasedGraph::GetNode(int x, int y) const
-{
-	const int index = GetIndex(x, y);
-	if (index < mNodes.size())
-	{
-		return &mNodes[index];
-	}
-
-	return nullptr;
-}
-
-int GridBasedGraph::GetIndex(int x, int y) const
-{
-	return x + (y * mColumns);
 }
