@@ -13,9 +13,41 @@ void GridBasedGraph::Initialize(int columns, int rows)
 	{
 		for (int c = 0; c < columns; ++c)
 		{
-			auto& node = mNodes.emplace_back();
-			node.column = c;
-			node.row = r;
+			auto node = GetNode(c, r);
+			for (int d = 0; d < 8; d++)
+			{
+				switch (d)
+				{
+				case 0:
+					node->neighbors[d] = GetNode(c, r - 1);
+					break;
+				case 1:
+					node->neighbors[d] = GetNode(c, r + 1);
+					break;
+				case 2:
+					node->neighbors[d] = GetNode(c + 1, r);
+					break;
+				case 3:
+					node->neighbors[d] = GetNode(c - 1, r);
+					break;
+				case 4:
+					node->neighbors[d] = GetNode(c + 1, r - 1);
+					break;
+				case 5:
+					node->neighbors[d] = GetNode(c - 1, r - 1);
+					break;
+				case 6:
+					node->neighbors[d] = GetNode(c + 1, r + 1);
+					break;
+				case 7:
+					node->neighbors[d] = GetNode(c - 1, r + 1);
+					break;
+				default:
+					break;
+				}
+			}
+			node->column = c;
+			node->row = r;
 		}
 	}
 }
