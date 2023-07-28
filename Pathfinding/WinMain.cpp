@@ -21,24 +21,25 @@ void GameInit()
 
 bool GameLoop(float deltaTime)
 {
-	ImGui::Begin("PathFinding");
-	ImGui::DragInt("StartX##", &StartX, 1, 0, tileMap.GetColumns() - 1);
-	ImGui::DragInt("StartY##", &StartY, 1, 0, tileMap.GetRows() - 1);
-	ImGui::DragInt("EndX##", &EndX, 1, 0, tileMap.GetColumns() - 1);
-	ImGui::DragInt("EndY##", &EndY, 1, 0, tileMap.GetRows() - 1);
-	if (ImGui::Button("RunBFS##"))
-	{
-
-		path = tileMap.FindPathBFS(StartX, StartY, EndX, EndY);
-	}
-	ImGui::End();
-
+	//ImGui::Begin("PathFinding");
+	//ImGui::DragInt("StartX##", &StartX, 1, 0, tileMap.GetColumns() - 1);
+	//ImGui::DragInt("StartY##", &StartY, 1, 0, tileMap.GetRows() - 1);
+	//ImGui::DragInt("EndX##", &EndX, 1, 0, tileMap.GetColumns() - 1);
+	//ImGui::DragInt("EndY##", &EndY, 1, 0, tileMap.GetRows() - 1);
+	//if (ImGui::Button("RunBFS##"))
+	//{
+	//
+	//	path = tileMap.FindPathBFS(StartX, StartY, EndX, EndY);
+	//}
+	//ImGui::End();
 	tileMap.Render();
-	for (int i = 1; i < path.size(); ++i)
-	{
-		X::DrawScreenLine(path[i - 1], path[i], X::Colors::Red);
-	}
-	//X::DrawScreenCircle(tileMap.GetPixelPosition())
+
+	//for (int i = 1; i < path.size(); ++i)
+	//{
+	//	X::DrawScreenLine(path[i - 1], path[i], X::Colors::Red);
+	//}
+	//X::DrawScreenCircle(tileMap.GetPixelPosition(StartX,StartY),3,X::Colors::Azure);
+	//X::DrawScreenCircle(tileMap.GetPixelPosition(EndX, EndY), 3, X::Colors::Cyan);
 
 	const bool quit = X::IsKeyPressed(X::Keys::ESCAPE);
 	return quit;

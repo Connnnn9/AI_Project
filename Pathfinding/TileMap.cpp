@@ -62,7 +62,6 @@ void TileMap::LoadMap(const char* fileName)
 
     mColumns = colums;
     mRows = rows;
-
     mMap.resize(colums * rows);
 
     for (int y = 0; y < rows; ++y)
@@ -76,7 +75,8 @@ void TileMap::LoadMap(const char* fileName)
     }
     file.close();
 
-    auto Getneighbor = [&](int c, int r) -> AI::GridBasedGraph::Node*
+
+    auto GetNeighbor = [&](int c, int r) -> AI::GridBasedGraph::Node*
     {
         if (IsBlocked(c, r))
         {
@@ -87,24 +87,26 @@ void TileMap::LoadMap(const char* fileName)
     };
 
     mGraph.Initialize(mColumns, mRows);
-    for (int  r = 0; r < mRows; ++r)
+    for (int r = 0; r < mRows; ++r)
     {
-        for (int  c = 0; c < mColumns; ++c)
+        for (int c = 0; c < mColumns; ++c)
         {
             if (IsBlocked(c,r))
             {
                 continue;
             }
-            GridBasedGraph::Node* node = mGraph.GetNode(c,r);
-            node->neighbors[GridBasedGraph::Direction::North] = mGraph.GetNode(c, r - 1);
-            node->neighbors[GridBasedGraph::Direction::South] = mGraph.GetNode(c, r + 1);
-            node->neighbors[GridBasedGraph::Direction::East] = mGraph.GetNode(c + 1, r);
-            node->neighbors[GridBasedGraph::Direction::West] = mGraph.GetNode(c - 1, r - 1);
-            node->neighbors[GridBasedGraph::Direction::NorthEast] = mGraph.GetNode(c + 1, r - 1);
-            node->neighbors[GridBasedGraph::Direction::NorthWest] = mGraph.GetNode(c - 1, r - 1);
-            node->neighbors[GridBasedGraph::Direction::SouthEast] = mGraph.GetNode(c + 1, r + 1);
-            node->neighbors[GridBasedGraph::Direction::SouthWest] = mGraph.GetNode(c - 1, r + 1);
+
+            GridBasedGraph::Node* node = mGraph.GetNode(c, r);
+            node->neighbors[GridBasedGraph::Direction::North] = GetNeighbor(c, r - 1);
+            node->neighbors[GridBasedGraph::Direction::South] = GetNeighbor(c, r + 1);
+            node->neighbors[GridBasedGraph::Direction::East] = GetNeighbor(c + 1, r);
+            node->neighbors[GridBasedGraph::Direction::West] = GetNeighbor(c - 1, r - 1);
+            node->neighbors[GridBasedGraph::Direction::NorthEast] = GetNeighbor(c + 1, r - 1);
+            node->neighbors[GridBasedGraph::Direction::NorthWest] = GetNeighbor(c - 1, r - 1);
+            node->neighbors[GridBasedGraph::Direction::SouthEast] = GetNeighbor(c + 1, r + 1);
+            node->neighbors[GridBasedGraph::Direction::SouthWest] = GetNeighbor(c - 1, r + 1);
         }
+        
     }
 }
 
@@ -118,13 +120,14 @@ void TileMap::Render() const
         for (int x = 0; x < mColumns; ++x)
         {
             int index = ToIndex(x, y, mColumns);
-            X::DrawSprite(mTiles[mMap[index]].textureid, position);
+            X::DrawSprite(mTiles[mMap[index]].textureid, position, X::Pivot::TopLeft);
             position.x += spriteWidth;
         }
 
         position.x = 0.0f;
-        position.y += spriteHeight;
+        position.y += mTileHeight;
     }
+
     for (int r = 0; r < mRows; ++r)
     {
         for (int c = 0; c < mColumns; ++c)

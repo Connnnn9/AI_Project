@@ -13,6 +13,12 @@
     <Filter Include="Src\PathFinding">
       <UniqueIdentifier>{247124a6-30b6-45c4-98a9-e216881282f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\FSM">
+      <UniqueIdentifier>{5e872096-b2bd-48d0-8a13-f0bff2982116}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Inc\FSM">
+      <UniqueIdentifier>{8f71d389-1e03-41b7-a3eb-7fa4261e019a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Inc\AI.h">
