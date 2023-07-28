@@ -5,7 +5,7 @@ namespace AI
 	class GridBasedGraph
 	{
 	public:
-		enum class Direction
+		enum Direction
 		{
 			North,
 			South,
@@ -14,7 +14,7 @@ namespace AI
 			NorthWest,
 			SouthWest,
 			NorthEast,
-			SouthEest
+			SouthEast
 		};
 		struct Node
 		{
@@ -31,22 +31,16 @@ namespace AI
 		void Initialize(int colums, int rows);
 		void ResetSearchParams();
 
-		Node* GetNode(int column, int row)
-		{
-			if (column < 0 || column >= mColumns || row < 0 || row >= mRows)
-				return nullptr;
-			return &mNodes[column + (row * mColumns)];
-		}
-		const Node* GetNode(int column, int row) const
-		{
-			if (column < 0 || column >= mColumns || row < 0 || row >= mRows)
-				return nullptr;
-			return &mNodes[column + (row * mColumns)];
-		}
+		Node* GetNode(int x, int y);
+
+		const Node* GetNode(int x, int y) const;
+
 		int GetColumns() const { return mColumns; }
 		int GetmRows() const { return mRows; }
 
 	private:
+		int GetIndex(int x, int y) const;
+
 		std::vector<Node> mNodes;
 		int mColumns = 0;
 		int mRows = 0;

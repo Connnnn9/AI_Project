@@ -3,6 +3,8 @@
 #include <XEngine.h>
 #include <AI.h>
 
+using Path = std::vector<X::Math::Vector2>;
+
 struct Tile
 {
 	X::TextureId textureid = 0;
@@ -18,6 +20,12 @@ public:
 	void Render() const;
 
 	bool IsBlocked(int x, int y) const;
+	Path FindPathBFS(int Start_X, int Start_Y, int End_X, int End_Y);
+
+	int GetColumns() const { return mColumns; }
+	int GetRows() const { return mRows; }
+
+	X::Math::Vector2 GetPixelPosition(int x, int y) const;
 
 private:
 	AI::GridBasedGraph mGraph;
@@ -25,4 +33,6 @@ private:
 	std::vector<Tile> mTiles;
 	int mColumns = 0;
 	int mRows = 0;
+	int mTileWidth = 0;
+	int mTileHeight = 0;
 };
