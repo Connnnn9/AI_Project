@@ -20,18 +20,6 @@ void GridBasedGraph::Initialize(int columns, int rows)
 	}
 }
 
-void GridBasedGraph::ResetSearchParams()
-{
-	for (auto& node : mNodes)
-	{
-		node.parent = nullptr;
-		node.g = 0.0f;
-		node.h = 0.0f;
-		node.opened = false;
-		node.closed = false;
-	}
-}
-
 GridBasedGraph::Node* GridBasedGraph::GetNode(int x, int y)
 {
 	const int index = GetIndex(x, y);
@@ -55,4 +43,16 @@ const GridBasedGraph::Node* GridBasedGraph::GetNode(int x, int y) const
 int GridBasedGraph::GetIndex(int x, int y) const
 {
 	return x + (y * mColumns);
+}
+
+void GridBasedGraph::ResetSearchParams()
+{
+	for (auto& node : mNodes)
+	{
+		node.parent = nullptr;
+		node.g = 0.0f;
+		node.h = 0.0f;
+		node.opened = false;
+		node.closed = false;
+	}
 }
