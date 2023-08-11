@@ -3,6 +3,18 @@
 #include <AI.h>
 #include "MinerState.h"
 
+enum class MinerStates
+{
+	GoHomeAndSleepUntilRested,
+	EnterMineAndDigForNugget,
+	QuenchThirst,
+	VisitBankAndDepositGold,
+	Hungry,
+	WantToPlayWithFriends,
+	NeedToShop,
+	SendGoodsToHome
+};
+
 class Miner
 {
 public:
@@ -11,40 +23,50 @@ public:
 		Home,
 		Mine,
 		Saloon,
-		Bank
+		Bank,
+		FriendsPlace,
+		ChinesefoodRestruant,
+		Superstore
 	};
 
-	enum MinerState
-	{
-		GoHomeAndSleepUntilReseted,
-		EnterMinerAndDig,
-		QuenchThirst,
-		VisitBankAndDepositGold
-	};
+	Miner() = default;
+	void Initialize();
+	void Terminate();
+	void Update(float deltaTime);
+	void ChangeState(MinerStates newState);
 
-	Miner(int ID);
-	void update();
-	void ChangeState(MinerState newState);
-	//states
-	LocationType GetlocationType();
-	bool isThirsty() const;
+	//check states
+	LocationType GetLocationType();
+	bool IsThristy() const;
 	bool PocketsFull() const;
-	bool wealthy() const;
+	bool Wealthy() const;
 	bool Rested() const;
+	bool Full() const;
+	bool GoodsIsEngough() const;
+	bool isLonely() const;
 
-	//functions
-	void IncreaseFatique();
-	void AddGoldCarrid(int amount);
+	//action functions
+	void SetLocation(LocationType location);
+	void IncreaseFatigue();
+	void AddGoldCarried(int amount);
 	void AddGoldToBank(int amount);
-	void IncreaseRest();
+	void AddGoodsToHome(int amount);
+	void EatChinesefood();
+	void ResetFatigue();
+	void ResetReset();
+	void Shopping(int amount);
+	void DrivetoFriendsPlaceandPlay();
 
 private:
-	AI::StateMachine mStateMachine;
-	LocationType mLocation;
-	int m_iGoldCarried; // # of nuggets in miner’s pocket
-	int m_iMoneyInBank; // Amount of money in bank
-	int m_iThirst; // Higher value = thirstier miner
-	int m_iFatigue; // Higher value = miner more tired
+	AI::StateMachine<Miner>* mStateMachine;
+	LocationType m_Location;
+	int m_iGoldCarried;
+	int m_iGoodsCarried;
+	int mMoneyInBank;
+	int mThirst;
+	int mEnergy;
+	int mFatigue;
+	int mGoods;
+	int mLonelyness;
 
 };
-
