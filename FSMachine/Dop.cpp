@@ -40,6 +40,10 @@ bool Dog::IsHungryOrThristy() const
 	{
 		return true;
 	}
+	else
+	{
+		return false;
+	}
 }
 
 bool Dog::IsTired() const
@@ -48,6 +52,10 @@ bool Dog::IsTired() const
 	{
 		return true;
 	}
+	else
+	{
+		return false;
+	}
 }
 
 bool Dog::isLonely() const
@@ -55,6 +63,10 @@ bool Dog::isLonely() const
 	if (mHappiness<=0)
 	{
 		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 
