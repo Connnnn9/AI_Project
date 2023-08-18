@@ -6,6 +6,8 @@
 
 AI::AIWorld aiworld;
 std::vector<std::unique_ptr<Peon>> peons;
+Peon targetPeon(aiworld);
+
 bool showDebug = false;
 float wanderJitter = 5.0f;
 float wanderRadius = 20.0f;
