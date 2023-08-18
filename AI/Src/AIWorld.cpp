@@ -12,17 +12,17 @@ void AI::AIWorld::Initialize(const X::Math::Vector2 & worldSize)
 {
 	const auto numColumns = static_cast<uint32_t>(std::ceilf(worldSize.x / sCellSize));
 	const auto numRows = static_cast<uint32_t>(std::ceilf(worldSize.y / sCellSize));
-	mGrid.Initialize(numColumns, numRows);
+	//mGrid.Initialize(numColumns, numRows);
 }
 
 void AI::AIWorld::Update()
 {
-	mGrid.ClearCells();
+	//mGrid.ClearCells();
 	for (auto entity : mEntities)
 	{
 		const auto column = static_cast<uint32_t>(entity->position.x / sCellSize);
 		const auto row = static_cast<uint32_t>(entity->position.y / sCellSize);
-		mGrid.GetCell(column, row).push_back(entity);
+		//mGrid.GetCell(column, row).push_back(entity);
 	}
 }
 
@@ -51,9 +51,9 @@ Agents AI::AIWorld::GetNeighborhood(const X::Math::Circle & range, uint16_t type
 	int maxY = static_cast<int>((range.center.y + range.radius) / sCellSize);
 
 	minX = X::Math::Max(minX, 0);
-	maxX = X::Math::Min(maxX, (int)mGrid.GetColumns() - 1);
+	//maxX = X::Math::Min(maxX, (int)mGrid.GetColumns() - 1);
 	minY = X::Math::Max(minY, 0);
-	maxY = X::Math::Min(maxY, (int)mGrid.GetRows() - 1);
+	//maxY = X::Math::Min(maxY, (int)mGrid.GetRows() - 1);
 
 	for (int y = minY; y <= maxY; ++y)
 	{

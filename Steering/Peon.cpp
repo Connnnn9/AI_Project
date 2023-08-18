@@ -1,12 +1,20 @@
 #include "Peon.h"
 #include "Typesid.h"
 
+//*
+extern float wanderJitter;
+extern float wanderRadius;
+extern float wanderDistance;
+
 Peon::Peon(AI::AIWorld& world)
 	: Agent(world, Types::PeonId)
 {
 }
 void Peon::Load()
 {
+	mSteeringModule = std::make_unique<AI::SteeringModule>(*this);
+	auto wanderBehavior = mSteeringModule->AddBehavior<AI::WanderBehavior>();
+	wanderBehavior->SetActive(true);
 	for (int i = 0; i < mTextureIDs.size(); ++i)
 	{
 		char name[128];
@@ -20,15 +28,51 @@ void Peon::Unload()
 }
 void Peon::Update(float deltaTime)
 {
+	if (mWanderBehavior->IsActive())
+	{
+		mWanderBehavior->Setup(wanderRadius, wanderDistance, wanderJitter);
+	}
+	const auto force = mSteeringModule->Calculate();
+	const auto acceleration = force / mass;
+	velocity += acceleration * deltaTime;
+	if (X::Math::MagnitudeSqr(velocity)>1.0f)
+	{
+		heading = X::Math::Normalize(velocity);
+	}
+
+	position += velocity * deltaTime;
+
+	const auto screenWidth = X::GetScreenWidth();
+	const auto screenHeight = X::GetScreenHeight();
+
+	if (position.x <0.0f)
+	{
+		position.x += screenWidth;
+	}
+	if (position.x >=0.0f)
+	{
+		position.x -= screenWidth;
+	}
+	if (position.y < 0.0f)
+	{
+		position.y += screenHeight;
+	}
+	if (position.y >= 0.0f)
+	{
+		position.y -= screenHeight;
+	}
+
 }
 void Peon::Render()
 {
-	const int frame = 0;
-	X::Math::Vector2 pos;
-	pos.x = X::GetScreenWidth() * 0.5f;
-	pos.y = X::GetScreenHeight() * 0.5f;
-	X::DrawSprite(mTextureIDs[frame], X::Math::Vector2::Zero());
+	const float angle = atan2(-heading.x,heading.y)+X::Math::kPi;
+	const float percent = angle / X::Math::kTwoPi;
+	const int frame = static_cast<int>(percent * mTextureIDs.size()) % mTextureIDs.size();
+	X::DrawSprite(mTextureIDs[frame], position,angle);
+	X::DrawSprite(mTextureIDs[frame], position,angle);
 }
-void Peon::ShowDebug(bool dbug)
+void Peon::ShowDebug(bool debug)
 {
+	
+	mWanderBehavior->IsDebug(debug);
 }

@@ -13,6 +13,11 @@
 //steering
 #include "SteeringBehavior.h"
 #include "SteeringModule.h"
+
+#include "ArriveBehavior.h"
+#include "WanderBehavior.h"
+#include "SeekBehavior.h"
 //AI
-#include"Agent.h"
-#include"AIWorld.h"
+#include "Agent.h"
+#include "AIWorld.h"
+#include "Entity.h"

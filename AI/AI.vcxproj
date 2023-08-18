@@ -153,10 +153,12 @@
     <ClInclude Include="Inc\Dijkstra_Search.h" />
     <ClInclude Include="Inc\Entity.h" />
     <ClInclude Include="Inc\GridBasedGraph.h" />
+    <ClInclude Include="Inc\SeekBehavior.h" />
     <ClInclude Include="Inc\State.h" />
     <ClInclude Include="Inc\StateMachine.h" />
     <ClInclude Include="Inc\SteeringBehavior.h" />
     <ClInclude Include="Inc\SteeringModule.h" />
+    <ClInclude Include="Inc\WanderBehavior.h" />
     <ClInclude Include="Src\Precomplied.h" />
   </ItemGroup>
   <ItemGroup>
@@ -165,11 +167,14 @@
     <ClCompile Include="Src\BFS.cpp" />
     <ClCompile Include="Src\DFS.cpp" />
     <ClCompile Include="Src\Dijkstra_Search.cpp" />
+    <ClCompile Include="Src\Entity.cpp" />
     <ClCompile Include="Src\GridBasedGraph.cpp" />
     <ClCompile Include="Src\Precomplied.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Src\SeekBehavior.cpp" />
     <ClCompile Include="Src\SteeringModule.cpp" />
+    <ClCompile Include="Src\WanderBehavior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\X\X.vcxproj">
