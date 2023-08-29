@@ -2,6 +2,7 @@
 #include <XEngine.h> // <> for external includes, "" for internal includes
 #include <AI.h>
 #include "Peon.h"
+#include "Typesid.h"
 //--------------------------------------------------
 
 AI::AIWorld aiworld;
@@ -14,11 +15,15 @@ float wanderRadius = 20.0f;
 float wanderDistance = 50.0f;
 
 AI::ArriveBehavior::Deceleration deceleration = AI::ArriveBehavior::Deceleration::Normal;
+
+int activeBehavior = 0;
+
 void spawnPeon()
 {
 	auto& peon = peons.emplace_back(std::make_unique<Peon>(aiworld));
 	peon->Load();
 	peon->ShowDebug(showDebug);
+	peon->target = &targetPeon;
 
 	const float halfScreenWidth= X::GetScreenWidth() * 0.5f;
 	const float halfScreenHeight=X::GetScreenHeight() * 0.5f;
@@ -32,8 +37,13 @@ void KillPeon()
 }
 void GameInit()
 {
-	aiworld.initialize();
-	KillPeon();
+	aiworld.Initialize();
+
+	targetPeon.Load();
+	targetPeon.SetFlee(true);
+	targetPeon.SetFlee(true);
+	targetPeon.SetFlee(true);
+	spawnPeon();
 
 }
 
@@ -48,19 +58,50 @@ bool GameLoop(float deltaTime)
 	{
 		KillPeon();
 	}
+	if (ImGui::Checkbox("showDebug", &showDebug))
+	{
+		for (auto& peon : peons)
+		{
+			peon->ShowDebug(showDebug);
+		}
+	}
+	static const char* behaviors[] =
+	{
+		"Flee",
+		"Seek",
+		"Wander",
+		"Arrive"
+	};
+	if (ImGui::Combo("ActiveBehavior##", &activeBehavior, behaviors, std::size(behaviors)))
+	{
+		for (auto& peon : peons)
+		{
+			peon->SetFlee(activeBehavior == 0);
+			peon->SetSeek(activeBehavior == 1);
+			peon->SetWander(activeBehavior == 2);
+			peon->SetArrive(activeBehavior == 3);
+		}
+	}
 	if (ImGui::CollapsingHeader("Wander##Settings", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		ImGui::DragFloat("Jitter##", &wanderJitter, 0.1f, 0.1f, 10.0f);
+		ImGui::DragFloat("Raidus##", &wanderRadius, 0.1f, 0.1f, 100.0f);
+		ImGui::DragFloat("Distance##", &wanderDistance, 0.1f, 0.1f, 500.0f);
 	}
-	if (ImGui::CollapsingHeader("Wander##Settings", ImGuiTreeNodeFlags_DefaultOpen))
+	if (ImGui::CollapsingHeader("Arrive##Settings", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		ImGui::DragFloat("Distance##", &wanderJitter, 0.1f, 0.1f, 10.0f);
+		static const char* decelerationSpeeds[] =
+		{
+			"Fast"
+			,"Normal"
+			,"Slow"
+		};
+		int decel = static_cast<int>(deceleration);
+		if (ImGui::Combo("Decleration##",&decel,decelerationSpeeds,std::size(decelerationSpeeds)))
+		{
+			deceleration = static_cast<AI::ArriveBehavior::Deceleration>(decel);
+		}
 	}
-	if (ImGui::CollapsingHeader("Wander##Settings", ImGuiTreeNodeFlags_DefaultOpen))
-	{
-		ImGui::DragFloat("Radius##", &wanderJitter, 0.1f, 0.1f, 10.0f);
-	}
-	
 	ImGui::End();
 
 	if (X::IsMousePressed(X::Mouse::LBUTTON))
@@ -68,24 +109,45 @@ bool GameLoop(float deltaTime)
 		const auto mouseX = static_cast<float>(X::GetMouseScreenX());
 		const auto mouseY = static_cast<float>(X::GetMouseScreenY());
 		const auto destination = X::Math::Vector2(mouseX, mouseY);
-		for (auto& peon ：peons)
+		for (auto& peon : peons )
 		{
-
+			peon->destination = destination;
 		}
 	}
-	aiworld.Update(deltaTime);
+	aiworld.Update();
+	for (auto& peon : peons)
+	{
+		auto neighbors = aiworld.GetEntitiesInRange({ peon->position,100.0f }, Types::PeonID);
+		peon->neighbors.clear();
+		for (auto& n : neighbors)
+		{
+			if (n!=peon.get())
+			{
+				peon->neighbors.push_back(static_cast<AI::Agent*>(n));
+			}
+		}
+	}
+	targetPeon.Update(deltaTime);
 	for (auto& peon : peons)
 	{
 		peon->Update(deltaTime);
 	}
+	targetPeon.Render();
 	for (auto& peon : peons)
 	{
 		peon->Render();
 	}
+	const bool quit = X::IsKeyPressed(X::Keys::ESCAPE);
+	return quit;
 }
 
 void GameCleanup()
 {
+	targetPeon.Unload();
+	for (auto& peon : peons)
+	{
+		peon->Unload();
+	}
 	//aiWorld.initialized();
 }
 

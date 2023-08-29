@@ -162,6 +162,7 @@
     <ClInclude Include="Src\Precomplied.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Agent.cpp" />
     <ClCompile Include="Src\AIWorld.cpp" />
     <ClCompile Include="Src\AStar.cpp" />
     <ClCompile Include="Src\BFS.cpp" />

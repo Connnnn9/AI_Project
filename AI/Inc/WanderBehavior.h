@@ -1,7 +1,7 @@
 #include"SteeringBehavior.h"
 namespace AI
 {
-	class WanderBehavior:public SteeringBehavior
+	class WanderBehavior :public SteeringBehavior
 	{
 	public:
 		virtual X::Math::Vector2 Calculate(Agent& agent) = 0;
@@ -12,5 +12,5 @@ namespace AI
 		float mWanderWanderRadius = 1.0f;
 		float mWanderDistance = 0.0f;
 		float mWanderJitter = 0.1f;
-	}
+	};
 }

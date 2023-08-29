@@ -113,5 +113,8 @@
     <ClCompile Include="Src\SeekBehavior.cpp">
       <Filter>Src\Steering</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Agent.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

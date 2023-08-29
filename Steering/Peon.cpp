@@ -7,20 +7,25 @@ extern float wanderRadius;
 extern float wanderDistance;
 
 Peon::Peon(AI::AIWorld& world)
-	: Agent(world, Types::PeonId)
+	: Agent(world, Types::PeonID)
 {
 }
 void Peon::Load()
 {
 	mSteeringModule = std::make_unique<AI::SteeringModule>(*this);
-	auto wanderBehavior = mSteeringModule->AddBehavior<AI::WanderBehavior>();
-	wanderBehavior->SetActive(true);
+	mArriveBehavior = mSteeringModule->AddBehavior<AI::ArriveBehavior>();
+	mFleeBehavior = mSteeringModule->AddBehavior<AI::FleeBehavior>();
+	mSeekBehavior = mSteeringModule->AddBehavior<AI::SeekBehavior>();
+	mWanderBehavior = mSteeringModule->AddBehavior<AI::WanderBehavior>();
+	mWanderBehavior->SetActive(true);
 	for (int i = 0; i < mTextureIDs.size(); ++i)
 	{
 		char name[128];
 		sprintf_s(name, "scv_%02i.png", i + 1);
 		mTextureIDs[i] = X::LoadTexture(name);
 	}
+	float spriteWidth = X::GetSpriteWidth(mTextureIDs[0]);
+	radius = (spriteWidth * 0.5f) + 30.0f;
 }	
 void Peon::Unload()
 {
@@ -69,10 +74,12 @@ void Peon::Render()
 	const float percent = angle / X::Math::kTwoPi;
 	const int frame = static_cast<int>(percent * mTextureIDs.size()) % mTextureIDs.size();
 	X::DrawSprite(mTextureIDs[frame], position,angle);
-	X::DrawSprite(mTextureIDs[frame], position,angle);
 }
 void Peon::ShowDebug(bool debug)
 {
 	
-	mWanderBehavior->IsDebug(debug);
+	mWanderBehavior->ShowDebug(debug);
+	mFleeBehavior->ShowDebug(debug);
+	mSeekBehavior->ShowDebug(debug);
+	mArriveBehavior->ShowDebug(debug);
 }

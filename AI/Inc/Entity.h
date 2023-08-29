@@ -2,6 +2,8 @@
 namespace AI
 {
 	class AIWorld;
+	class Entity;
+	using EntityPtr = std::vector<Entity*>;
 
 	class  Entity
 	{
@@ -18,8 +20,9 @@ namespace AI
 		AIWorld& world;
 		X::Math::Vector2 position = X::Math::Vector2::Zero();
 		X::Math::Vector2 heading = X::Math::Vector2::YAxis();
-		const int id = 0;
+		//const int id = 0;
 		float radius = 1.0f;
+		
 		uint32_t GetTypeId() const { return static_cast<uint32_t>(mUnqueId >> 32); }
 		uint64_t GetUniqueId() const { return  mUnqueId; }
 	private:

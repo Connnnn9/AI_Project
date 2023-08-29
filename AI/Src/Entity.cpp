@@ -1,19 +1,19 @@
 #include"Precomplied.h"
 #include "Entity.h"
+
+#include "AIWorld.h"
 using namespace AI;
 Entity::Entity(AIWorld& world, uint16_t typeId)
+	:world(world),mUnqueId(static_cast<uint64_t>(typeId)<< 32| world.GetNextId())
 {
-
+	world.Register(this);
 }
+
 AI::Entity::~Entity()
 {
 	world.Unregister(this);
 }
-Entity::GetTypeId()
-{
-}
-
-X::Math::Matrix3 Entity::GetWorldTransform()
+X::Math::Matrix3 Entity::GetWorldTransform() const
 {
 	const auto h = heading;
 	const auto s = X::Math::PerpendicularRH(h);

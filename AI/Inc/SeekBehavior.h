@@ -13,6 +13,15 @@ namespace AI
 	{
 	public:
 	virtual X::Math::Vector2 Calculate(Agent& agent) override;
-		
+	};	
+	class ArriveBehavior: public SteeringBehavior
+	{
+	public:
+	virtual X::Math::Vector2 Calculate(Agent& agent) override;
+	};
+	class WanderBehavior: public SteeringBehavior
+	{
+	public:
+	virtual X::Math::Vector2 Calculate(Agent& agent) override;
 	};
 }
