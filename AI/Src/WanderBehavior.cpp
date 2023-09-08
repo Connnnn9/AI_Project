@@ -32,7 +32,7 @@ X::Math::Vector2 WanderBehavior::Calculate(Agent& agent)
 			}, worldTransform);
 		X::DrawScreenCircle(WanderCenter, mWanderWanderRadius, X::Colors::Yellow);
 		X::DrawScreenDiamond(worldWanderTarget, 3.0f, X::Colors::Red);
-		X::DrawScreenLine(agent.position);
+		X::DrawScreenLine(agent.position,worldWanderTarget,X::Colors::Gray);
 	}
 
 	return seekForce;
