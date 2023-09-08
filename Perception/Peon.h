@@ -2,7 +2,7 @@
 
 #include<AI.h>
 
-class  Peon: public AI::Agent
+class  Peon : public AI::Agent
 {
 public:
 	Peon(AI::AIWorld& world);

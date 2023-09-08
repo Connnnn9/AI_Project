@@ -26,7 +26,7 @@ void Peon::Load()
 	}
 	float spriteWidth = X::GetSpriteWidth(mTextureIDs[0]);
 	radius = (spriteWidth * 0.5f) + 30.0f;
-}	
+}
 void Peon::Unload()
 {
 
@@ -43,7 +43,7 @@ void Peon::Update(float deltaTime)
 	const auto force = mSteeringModule->Calculate();
 	const auto acceleration = force / mass;
 	velocity += acceleration * deltaTime;
-	if (X::Math::MagnitudeSqr(velocity)>1.0f)
+	if (X::Math::MagnitudeSqr(velocity) > 1.0f)
 	{
 		heading = X::Math::Normalize(velocity);
 	}
@@ -53,11 +53,11 @@ void Peon::Update(float deltaTime)
 	const auto screenWidth = X::GetScreenWidth();
 	const auto screenHeight = X::GetScreenHeight();
 
-	if (position.x <0.0f)
+	if (position.x < 0.0f)
 	{
 		position.x += screenWidth;
 	}
-	if (position.x >=0.0f)
+	if (position.x >= 0.0f)
 	{
 		position.x -= screenWidth;
 	}
@@ -73,14 +73,14 @@ void Peon::Update(float deltaTime)
 }
 void Peon::Render()
 {
-	const float angle = atan2(-heading.x,heading.y)+X::Math::kPi;
+	const float angle = atan2(-heading.x, heading.y) + X::Math::kPi;
 	const float percent = angle / X::Math::kTwoPi;
 	const int frame = static_cast<int>(percent * mTextureIDs.size()) % mTextureIDs.size();
-	X::DrawSprite(mTextureIDs[frame], position,angle);
+	X::DrawSprite(mTextureIDs[frame], position, angle);
 }
 void Peon::ShowDebug(bool debug)
 {
-	
+
 	mWanderBehavior->ShowDebug(debug);
 	//mFleeBehavior->ShowDebug(debug);
 	mSeekBehavior->ShowDebug(debug);

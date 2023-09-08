@@ -26,5 +26,5 @@ namespace AI
 		}
 	};
 
-	using MemoryRecord = std::list<MemoryRecord>;
+	using MemoryRecords = std::list<MemoryRecord>;
 }

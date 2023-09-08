@@ -17,6 +17,11 @@
 #include "ArriveBehavior.h"
 #include "WanderBehavior.h"
 #include "SeekBehavior.h"
+
+//group
+#include "GroupBehavior.h"
+
+#include "PerceptionModule.h"
 //AI
 #include "Agent.h"
 #include "AIWorld.h"
