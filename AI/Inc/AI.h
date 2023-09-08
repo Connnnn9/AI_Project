@@ -26,3 +26,5 @@
 #include "Agent.h"
 #include "AIWorld.h"
 #include "Entity.h"
+
+#include "MemoryRecord.h"

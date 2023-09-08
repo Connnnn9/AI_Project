@@ -36,7 +36,7 @@ X::Math::Vector2 FleeBehavior::Calculate(Agent& agent)
 		desiredVelocity = -(agentToDest / distToDest) * agent.maxSpeed;
 	}
 
-	X::Math::Vector2 fleeForce = desiredVelocity - agent.velocity;
+	fleeForce = desiredVelocity - agent.velocity;
 	
 	if (IsDebug())
 	{

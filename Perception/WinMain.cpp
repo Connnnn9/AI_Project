@@ -17,7 +17,7 @@ float wanderDistance = 50.0f;
 //AI::ArriveBehavior::Deceleration deceleration = AI::ArriveBehavior::Deceleration::Normal;
 int activeBehavior = 0;
 
-void spawnPeon()
+void SpawnPeon()
 {
 	auto& peon = peons.emplace_back(std::make_unique<Peon>(aiworld));
 	peon->Load();
@@ -40,7 +40,7 @@ void GameInit()
 	//targetPeon.SetFlee(true);
 	//targetPeon.SetFlee(true);
 	//targetPeon.SetFlee(true);
-	spawnPeon();
+	SpawnPeon();
 
 }
 
@@ -49,7 +49,7 @@ bool GameLoop(float deltaTime)
 	ImGui::Begin("Steering Controls", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 	if (ImGui::Button("Spawn"))
 	{
-		spawnPeon();
+		SpawnPeon();
 	}
 	if (ImGui::Button("Kill"))
 	{

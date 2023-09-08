@@ -6,15 +6,22 @@ extern float wanderJitter;
 extern float wanderRadius;
 extern float wanderDistance;
 
+namespace
+{
+	float ComputeImportance(const AI::Agent& agent, const AI::MemoryRecord& record)
+	{
+		return record.importance;
+	}
+}
+
 Peon::Peon(AI::AIWorld& world)
 	: Agent(world, Types::PeonID)
 {
 }
 void Peon::Load()
 {
+	mPerceptionModule = std::make_unique<AI::PerceptionModule>(*this, ComputeImportance);
 	mSteeringModule = std::make_unique<AI::SteeringModule>(*this);
-	//mArriveBehavior = mSteeringModule->AddBehavior<AI::ArriveBehavior>();
-	//mFleeBehavior = mSteeringModule->AddBehavior<AI::FleeBehavior>();
 	mSeekBehavior = mSteeringModule->AddBehavior<AI::SeekBehavior>();
 	mWanderBehavior = mSteeringModule->AddBehavior<AI::WanderBehavior>();
 	mWanderBehavior->SetActive(true);
